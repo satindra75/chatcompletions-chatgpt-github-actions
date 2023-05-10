@@ -40,24 +40,24 @@ def files():
             filename = file.filename
             content = repo.get_contents(filename, ref=commit.sha).decoded_content
 
+            conversations = []
+            conversations.append({'role': 'user', 'content': f"Explain Code:\n```{content}```"})
+            model_id = 'gpt-3.5-turbo'
+            
             # Sending the code to ChatGPT
-            response = openai.Completion.create(
-                engine=args.openai_engine,
-                prompt=(f"Explain Code:\n```{content}```"),
-                temperature=float(args.openai_temperature),
-                max_tokens=int(args.openai_max_tokens)
+            response = openai.ChatCompletion.create(
+                model=model_id,
+                messages=conversations
             )
-           # conversations = []
-           # conversations.append({'role': 'user', 'content': 'Tell me on coding standards'})
-          #  conversations_response = chatgpt_conversation(conversations)
-          #  conversations.append({"role": "assistant", "content": conversations_response['choices'][0]['message']['content']})
+            
+            result = []
+            result.append({"role": "assistant", "content": response['choices'][0]['message']['content']})
             
             # Adding a comment to the pull request with ChatGPT's response
             pull_request.create_issue_comment(
-                f"ChatGPT's response about `{file.filename}`:\n {response['choices'][0]['text']}")
+                f"ChatGPT's response about `{file.filename}`:\n {result}")
             
-            print(response)
-            print(response['choices'][0]['text'])
+            print(result)
 
 def patch():
     print("I am in patch")
