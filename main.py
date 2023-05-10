@@ -47,7 +47,11 @@ def files():
                 temperature=float(args.openai_temperature),
                 max_tokens=int(args.openai_max_tokens)
             )
-
+           # conversations = []
+           # conversations.append({'role': 'user', 'content': 'Tell me on coding standards'})
+          #  conversations_response = chatgpt_conversation(conversations)
+          #  conversations.append({"role": "assistant", "content": conversations_response['choices'][0]['message']['content']})
+            
             # Adding a comment to the pull request with ChatGPT's response
             pull_request.create_issue_comment(
                 f"ChatGPT's response about `{file.filename}`:\n {response['choices'][0]['text']}")
