@@ -41,8 +41,10 @@ def files():
             content = repo.get_contents(filename, ref=commit.sha).decoded_content
 
             conversations = []
-            conversations.append({'role': 'user', 'content': f"Explain Code:\n```{content}```"})
+            conversations.append({'role': 'user', 'content': f"You will take in a code Snippet, and tell the user what they could have improved (like a code review) based on analyzing the code. The language in the snippet is c#. Feel free to provide any examples as markdown code snippets in your answer.:\n```{content}```"})
             model_id = 'gpt-3.5-turbo'
+            temperature=float(args.openai_temperature),
+            max_tokens=int(args.openai_max_tokens)
             
             # Sending the code to ChatGPT
             response = openai.ChatCompletion.create(
