@@ -57,7 +57,7 @@ def files():
             
             # Adding a comment to the pull request with ChatGPT's response
             pull_request.create_issue_comment(
-                f"ChatGPT's response about `{file.filename}`:\n {result}")
+                f"ChatGPT's response about `{file.filename}`:\n {response['choices'][0]['message']['content']}")
             
             print(result)
 
